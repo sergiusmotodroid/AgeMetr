@@ -12,6 +12,7 @@ import android.os.SystemClock
 import android.text.method.LinkMovementMethod
 import android.util.Size
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -637,11 +638,33 @@ class MainActivity : AppCompatActivity() {
         progressBar.visibility = View.INVISIBLE
         cameraButton.isEnabled = true
         photoButton.isEnabled = true
+        resultCard.post { fitPhotoAboveResult() }
     }
 
     private fun clearResult() {
         resultText.text = ""
         resultCard.visibility = View.GONE
+        fitPhotoAboveResult()
+    }
+
+    /**
+     * В режиме фото уменьшает область снимка так, чтобы карточка результата
+     * не закрывала лица: фото и рамки рисуются только выше карточки.
+     */
+    private fun fitPhotoAboveResult() {
+        val photoMode = !liveMode && photoPreview.scaleType == ImageView.ScaleType.FIT_CENTER
+        val bottom = if (photoMode && resultCard.visibility == View.VISIBLE) {
+            val margins = (resultCard.layoutParams as? ViewGroup.MarginLayoutParams)
+                ?.let { it.topMargin + it.bottomMargin } ?: 0
+            resultCard.height + margins
+        } else {
+            0
+        }
+        if (photoPreview.paddingBottom != bottom) {
+            photoPreview.setPadding(0, 0, 0, bottom)
+            faceSelectionOverlay.setPadding(0, 0, 0, bottom)
+            faceSelectionOverlay.invalidate()
+        }
     }
 
     override fun onDestroy() {
