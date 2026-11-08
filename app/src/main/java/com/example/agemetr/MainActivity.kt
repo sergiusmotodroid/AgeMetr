@@ -27,6 +27,8 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.mlkit.vision.common.InputImage
@@ -105,6 +107,20 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // Android 15+ рисует приложение под строкой состояния: отодвигаем содержимое от системных панелей
+        val root = findViewById<View>(R.id.main)
+        val basePadding = Rect(root.paddingLeft, root.paddingTop, root.paddingRight, root.paddingBottom)
+        ViewCompat.setOnApplyWindowInsetsListener(root) { v, insets ->
+            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
+            v.setPadding(
+                basePadding.left + bars.left,
+                basePadding.top + bars.top,
+                basePadding.right + bars.right,
+                basePadding.bottom + bars.bottom,
+            )
+            insets
+        }
 
         cameraPreview = findViewById(R.id.cameraPreview)
         photoPreview = findViewById(R.id.photoPreview)
