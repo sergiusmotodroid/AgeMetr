@@ -1,0 +1,11 @@
+AgeMetr uses MiVOLO v2 (face-only input) for age and gender estimation.
+The model runs on device with ONNX Runtime.
+
+Source: https://huggingface.co/iitolstykh/mivolo_v2
+Paper: M. Kuprashevich, I. Tolstykh. MiVOLO: Multi-input Transformer for Age
+and Gender Estimation, 2023 (arXiv:2307.04616); 2024 (arXiv:2403.02302).
+License: CC BY-NC 4.0 (non-commercial use only).
+
+Converted to ONNX (opset 18, body input fixed to empty) and quantized to int8
+(dynamic, MatMul weights). Accuracy on 115 APPA-REAL photos: MAE 4.2 years,
+gender 100 %.

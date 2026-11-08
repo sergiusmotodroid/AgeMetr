@@ -1,0 +1,13 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme: всегда тёмная -->
+    <style name="Base.Theme.AgeMetr" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">@color/agemetr_primary</item>
+        <item name="colorOnPrimary">@color/agemetr_on_primary</item>
+        <item name="colorSecondary">@color/agemetr_accent</item>
+        <item name="colorSurface">@color/agemetr_surface</item>
+        <item name="android:windowBackground">@drawable/bg_screen</item>
+        <item name="android:statusBarColor">@color/agemetr_background_top</item>
+        <item name="android:navigationBarColor">@color/agemetr_background</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+</resources>

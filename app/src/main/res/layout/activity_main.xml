@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_screen"
+    android:orientation="vertical"
+    android:paddingStart="16dp"
+    android:paddingTop="14dp"
+    android:paddingEnd="16dp"
+    android:paddingBottom="16dp">
+
+    <!-- Заголовок -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="0.02"
+                android:text="AgeMetr"
+                android:textColor="@color/agemetr_text"
+                android:textSize="26sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Возраст и пол по лицу · офлайн"
+                android:textColor="@color/agemetr_secondary_text"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:indeterminateTint="@color/agemetr_primary"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+    <!-- Камера / фото -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="14dp"
+        android:layout_weight="1"
+        app:cardBackgroundColor="@color/agemetr_photo_placeholder"
+        app:cardCornerRadius="28dp"
+        app:cardElevation="0dp"
+        app:strokeColor="#3322D3EE"
+        app:strokeWidth="1dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.camera.view.PreviewView
+                android:id="@+id/cameraPreview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible"
+                app:implementationMode="compatible"
+                app:scaleType="fillCenter" />
+
+            <ImageView
+                android:id="@+id/photoPreview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/agemetr_photo_placeholder"
+                android:contentDescription="Выбранное фото"
+                android:scaleType="fitCenter"
+                android:visibility="gone" />
+
+            <com.example.agemetr.FaceGuideView
+                android:id="@+id/faceGuide"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="false"
+                android:focusable="false" />
+
+            <com.example.agemetr.FaceSelectionOverlayView
+                android:id="@+id/faceSelectionOverlay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="false"
+                android:focusable="false"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/faceSearchLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|center_horizontal"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_pill"
+                android:fontFamily="sans-serif-medium"
+                android:paddingStart="16dp"
+                android:paddingTop="7dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="7dp"
+                android:text="Поиск лица…"
+                android:textColor="@color/agemetr_text"
+                android:textSize="15sp"
+                android:visibility="gone" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/switchCameraButton"
+                style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="top|end"
+                android:layout_margin="10dp"
+                android:contentDescription="Переключить камеру"
+                app:backgroundTint="#B30B1020"
+                app:icon="@drawable/ic_switch_camera"
+                app:iconTint="@color/agemetr_text" />
+
+            <TextView
+                android:id="@+id/photoPlaceholder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Фото не загружено"
+                android:textColor="@color/agemetr_secondary_text"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+            <!-- Результат поверх изображения: не сдвигает разметку -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/resultCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_margin="12dp"
+                android:visibility="gone"
+                app:cardBackgroundColor="@color/agemetr_result_background"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#5522D3EE"
+                app:strokeWidth="1dp">
+
+                <TextView
+                    android:id="@+id/resultText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:lineSpacingExtra="2dp"
+                    android:maxLines="8"
+                    android:paddingStart="16dp"
+                    android:paddingTop="12dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="12dp"
+                    android:textColor="@color/agemetr_text"
+                    android:textSize="18sp" />
+            </com.google.android.material.card.MaterialCardView>
+        </FrameLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Кнопки -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/cameraButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="1"
+            android:text="К камере"
+            android:textColor="@color/agemetr_text"
+            android:textSize="15sp"
+            android:visibility="gone"
+            app:cornerRadius="18dp"
+            app:icon="@drawable/ic_camera"
+            app:iconTint="@color/agemetr_primary"
+            app:strokeColor="@color/agemetr_outline" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/photoButton"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="6dp"
+            android:layout_weight="1"
+            android:text="Выбрать фото"
+            android:textColor="@color/agemetr_on_primary"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:backgroundTint="@color/agemetr_primary"
+            app:cornerRadius="18dp"
+            app:icon="@drawable/ic_gallery"
+            app:iconTint="@color/agemetr_on_primary" />
+    </LinearLayout>
+</LinearLayout>
