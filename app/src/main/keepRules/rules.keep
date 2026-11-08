@@ -12,3 +12,7 @@
 #}
 # ONNX Runtime is called through JNI
 -keep class ai.onnxruntime.** { *; }
+
+# R8 repackaging moved classes away from package-private Kotlin superclasses
+# (IllegalAccessError at startup in release). Keep names and packages as they are.
+-dontobfuscate

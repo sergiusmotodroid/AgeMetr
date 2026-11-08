@@ -20,3 +20,6 @@ local.properties
 /faces_exact_age/
 /old_models/
 *.zip
+
+# Release signing key: never commit, keep a backup
+/keystore/
