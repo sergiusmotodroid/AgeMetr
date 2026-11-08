@@ -49,6 +49,16 @@
             android:layout_height="26dp"
             android:indeterminateTint="@color/agemetr_primary"
             android:visibility="invisible" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/aboutButton"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="4dp"
+            android:contentDescription="@string/about_title"
+            app:icon="@drawable/ic_info"
+            app:iconTint="@color/agemetr_secondary_text" />
     </LinearLayout>
 
     <!-- Камера / фото -->

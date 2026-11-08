@@ -9,6 +9,7 @@ import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
 import android.os.SystemClock
+import android.text.method.LinkMovementMethod
 import android.util.Size
 import android.view.View
 import android.widget.Button
@@ -25,7 +26,9 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
+import androidx.core.text.HtmlCompat
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.face.Face
 import com.google.mlkit.vision.face.FaceDetection
@@ -140,10 +143,22 @@ class MainActivity : AppCompatActivity() {
             pickPhoto.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
 
+        findViewById<View>(R.id.aboutButton).setOnClickListener { showAboutDialog() }
+
         cameraPreview.post {
             if (hasCameraPermission()) startLiveCamera()
             else requestCameraPermission.launch(Manifest.permission.CAMERA)
         }
+    }
+
+    /** Авторы модели и лицензии: CC BY-NC 4.0 требует указать авторство в приложении. */
+    private fun showAboutDialog() {
+        val dialog = MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.about_title)
+            .setMessage(HtmlCompat.fromHtml(getString(R.string.about_text).trim(), HtmlCompat.FROM_HTML_MODE_LEGACY))
+            .setPositiveButton(R.string.about_close, null)
+            .show()
+        dialog.findViewById<TextView>(android.R.id.message)?.movementMethod = LinkMovementMethod.getInstance()
     }
 
     private fun hasCameraPermission(): Boolean = ContextCompat.checkSelfPermission(

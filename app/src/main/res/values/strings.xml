@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">AgeMetr</string>
+    <string name="about_title">О приложении</string>
+    <string name="about_close">Закрыть</string>
+    <!-- Указание авторства модели по лицензии CC BY-NC 4.0 -->
+    <string name="about_text"><![CDATA[
+<b>AgeMetr</b> оценивает возраст и пол по лицу. Всё считается на устройстве, фото никуда не отправляются.<br><br>
+<b>Модель возраста и пола</b><br>
+MiVOLO v2. Авторы: Maksim Kuprashevich, Grigorii Alekseenko, Irina Tolstykh.<br>
+<a href="https://huggingface.co/iitolstykh/mivolo_v2">huggingface.co/iitolstykh/mivolo_v2</a><br>
+Лицензия: <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>, только некоммерческое использование.<br>
+Изменения: модель переведена в формат ONNX, используется только лицо, веса сжаты до int8. Авторы модели не связаны с AgeMetr и не одобряли эти изменения.<br><br>
+<b>Библиотеки</b><br>
+ONNX Runtime, Microsoft, лицензия MIT.<br>
+ML Kit Face Detection, Google, <a href="https://developers.google.com/ml-kit/terms">ML Kit Terms</a>.<br>
+AndroidX, CameraX, Material Components, Kotlin, лицензия Apache 2.0.
+]]></string>
 </resources>
