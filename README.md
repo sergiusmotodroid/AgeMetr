@@ -1,13 +1,56 @@
 # AgeMetr
 
-The app opens a live front-camera preview and estimates the largest visible face about once per second. A face-shaped guide helps position the face. Selecting an existing photo is an optional alternative.
+Android-приложение, которое оценивает **возраст и пол по лицу** — с камеры или по фотографии. Всё считается прямо на телефоне: интернет не нужен, фото никуда не отправляются.
 
-Age and gender inference run locally on the device. The models are bundled with the app; no model download is needed at first launch.
+<p align="center">
+  <img src="docs/screenshots/main.png" width="270" alt="Главный экран: камера с рамкой-подсказкой для лица">
+  &nbsp;&nbsp;
+  <img src="docs/screenshots/about.png" width="270" alt="Окно «О приложении» с авторами модели и лицензиями">
+</p>
 
-## Authors and licenses
+## Возможности
 
-- App code: sergius.
-- Age and gender model: [MiVOLO v2](https://huggingface.co/iitolstykh/mivolo_v2) by Maksim Kuprashevich, Grigorii Alekseenko and Irina Tolstykh, licensed under [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/). The bundled model was converted to ONNX and quantized to int8 for AgeMetr.
-- **Non-commercial use only**, because of the model license.
+- **Живая камера.** Наведите камеру на лицо так, чтобы оно попало в рамку-подсказку. Приложение само дождётся, пока лицо замрёт, сделает три замера и покажет итог: возраст, пол и уверенность модели. Кадр с результатом «замораживается», кнопка «Переснять» запускает замер заново.
+- **Передняя и задняя камера** — переключаются кнопкой в углу экрана.
+- **Фото из галереи.** Находит на снимке все лица, нумерует их слева направо и подписывает возраст и пол каждого — подходит для групповых фото.
+- **Полностью офлайн.** Модели встроены в приложение, ничего не скачивается при первом запуске. Приложению нужно только разрешение на камеру.
 
-Full list of third-party components and their licenses: [NOTICE.md](NOTICE.md). Model details: `app/src/main/assets/MODEL_NOTICE.txt`.
+## Основные параметры
+
+| Параметр | Значение |
+|---|---|
+| Модель возраста и пола | [MiVOLO v2](https://huggingface.co/iitolstykh/mivolo_v2), вариант «только лицо» |
+| Формат модели | ONNX, веса сжаты до int8, около 42 МБ |
+| Вход модели | лицо 384×384 пикселя, RGB |
+| Что выдаёт | возраст (1–100 лет), пол и уверенность в поле |
+| Точность после сжатия | средняя ошибка возраста 4,2 года, пол — 115 из 115 (проверка на 115 фото из набора APPA-REAL) |
+| Поиск лиц | Google ML Kit Face Detection, встроенная офлайн-версия |
+| Живой режим | итог — медиана возраста по 3 кадрам и пол по большинству; лицо должно быть около центра кадра, не меньше 72 пикселей в ширину и не двигаться |
+| Режим фото | точный поиск лиц, находит лица от 3 % размера снимка; большие фото уменьшаются до 1800 пикселей по длинной стороне |
+| Android | 9.0 и новее (minSdk 28), targetSdk 37 |
+| Процессоры | arm64-v8a (телефоны), x86_64 (эмулятор) |
+| Технологии | Kotlin, CameraX 1.6, ML Kit, ONNX Runtime 1.31 |
+
+Оценка возраста — это оценка по внешности, а не по документам: результат зависит от освещения, ракурса, макияжа и т. п. Ошибка в несколько лет — нормальна.
+
+## Сборка
+
+1. Откройте папку проекта в Android Studio.
+2. Подключите телефон с включённой отладкой по USB или запустите эмулятор.
+3. Нажмите **Run**.
+
+Или из командной строки:
+
+```bash
+./gradlew assembleDebug
+```
+
+Готовые APK появятся в `app/build/outputs/apk/debug/`.
+
+## Авторы и лицензии
+
+- Код приложения: sergiusmotodroid.
+- Модель возраста и пола: [MiVOLO v2](https://huggingface.co/iitolstykh/mivolo_v2), авторы Maksim Kuprashevich, Grigorii Alekseenko, Irina Tolstykh. Лицензия [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/). Для AgeMetr модель переведена в ONNX и сжата до int8.
+- **Только некоммерческое использование** — из-за лицензии модели.
+
+Полный список сторонних компонентов и их лицензий — в [NOTICE.md](NOTICE.md), подробности о модели — в `app/src/main/assets/MODEL_NOTICE.txt`. Те же сведения показаны в самом приложении, в окне «О приложении» (кнопка ⓘ).
